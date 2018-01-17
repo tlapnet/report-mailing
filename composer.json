@@ -1,0 +1,50 @@
+{
+  "name": "tlapnet/report-mailing",
+  "description": "Configurable library for periodic email sending",
+  "license": "MIT",
+  "require": {
+    "contributte/scheduler": "dev-master",
+    "contributte/mailing": "^0.1.0",
+    "dragonmantank/cron-expression": "1.2.1",
+    "nette/di": "^2.4",
+    "latte/latte": "^2.4"
+  },
+  "require-dev": {
+    "ninjify/qa": "~0.4.0",
+    "mockery/mockery": "^1.0",
+    "phpunit/phpunit": "^5.7.25"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Tlapnet\\ReportMailing\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Tlapnet\\ReportMailing\\": "tests/"
+    }
+  },
+  "scripts": {
+    "qa": [
+      "linter src tests",
+      "codesniffer src tests"
+    ],
+    "qa-install-phpstan": [
+      "mkdir -p temp/phpstan",
+      "composer require -d temp/phpstan phpstan/phpstan"
+    ],
+    "phpstan": [
+      "temp/phpstan/vendor/bin/phpstan analyse -l 7 src"
+    ],
+    "phpunit": [
+      "phpunit tests --colors=always"
+    ],
+    "ci": [
+      "@qa",
+      "@phpstan",
+      "@phpunit"
+    ]
+  }
+}
