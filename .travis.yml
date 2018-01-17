@@ -7,7 +7,7 @@ php:
 
 before_install:
   # turn off XDebug
-  - phpenv config-rm xdebug.ini || return 0
+  #- phpenv config-rm xdebug.ini || return 0
 
 install:
   # Composer
