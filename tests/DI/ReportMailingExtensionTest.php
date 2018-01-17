@@ -13,7 +13,6 @@ use Nette\DI\Compiler;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
 use PHPUnit\Framework\TestCase;
-use Tlapnet\Report\Bridges\Nette\DI\ReportExtension;
 use Tlapnet\ReportMailing\DI\ReportMailingExtension;
 use Tlapnet\ReportMailing\Processor\ProcessorResolver;
 use Tlapnet\ReportMailing\ReportSender;
@@ -42,8 +41,6 @@ final class ReportMailingExtensionTest extends TestCase
 				],
 			]);
 			$compiler->addExtension('scheduler', new SchedulerExtension());
-			// Report
-			$compiler->addExtension('report', new ReportExtension());
 			// ReportMailing
 			$compiler->addExtension('reportMailing', new ReportMailingExtension());
 		});
