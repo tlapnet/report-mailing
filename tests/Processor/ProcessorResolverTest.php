@@ -5,6 +5,7 @@ namespace Tests\Tlapnet\ReportMailing\Processor;
 use Mockery;
 use Mockery\MockInterface;
 use Tests\Tlapnet\ReportMailing\MockeryTest;
+use Tlapnet\ReportMailing\Exceptions\Logic\InvalidStateException;
 use Tlapnet\ReportMailing\Processor\IProcessor;
 use Tlapnet\ReportMailing\Processor\ProcessorResolver;
 
@@ -22,6 +23,9 @@ final class ProcessorResolverTest extends MockeryTest
 
 		$resolver = new ProcessorResolver([$type => $processor]);
 		self::assertSame($processor, $resolver->get($type));
+
+		self::expectException(InvalidStateException::class);
+		$resolver->get('unknown');
 	}
 
 }
