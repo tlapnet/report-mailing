@@ -19,12 +19,68 @@ Set-up crontab for scheduler. Use `scheduler:run` command.
 * * * * * php path-to-project/console scheduler:run
 ```
 
+## Feeds
+
+Every set of emails is called feed. You need to set `cron` expression, and `mail.to` option.
+ 
+Optionally you can set `mail.subject`, `mail.template`. 
+
+```yaml
+reportMailing:
+    feeds:
+
+        reportX:
+            cron: * * * * *
+            mail:
+                subject: Here is your report.
+                to:
+                    - mail@example.com
+                    - mail2@example.com
+                template:
+                    file: %appDir%/templates/mail.latte 
+                    params: []
+            processors: 
+                - {type: from, meta: {mail: johndoe@example.com}}
+```
+
+If you need customize more thing, you need to use processors.
+
 ## Processors
+
+Processors are customizable services that append or changing something in mail. 
+
+### To processor
+
+```yaml
+    - {type: to, meta: {to: [mail@example.com, mail2@example.com]}}
+```
+
+### Subject processor
+
+```yaml
+    - {type: subject, meta: {subject: Cool email!}}
+```
+
+### From processor
+
+```yaml
+    - {type: from, meta: {mail: johndoe@example.com, name: John Doe}}
+```
+
+### Template processor 
+
+```yaml
+    - {type: template, meta: {file: %appDir%/templates/mail.latte, params: []}}
+```
+
+### Custom processor
+
+Or you can create your own processor. 
 
 Use `IProcessor` interface. Every processor is registered as service in DIC, so you can use other services.
 
 ```php
-class FromProcessor implements IProcessor
+class MyAwesomeProcessor implements IProcessor
 {
 
 	/**
@@ -47,32 +103,21 @@ And don't forget register it in processors section.
 ```yaml
 reportMailing:
     processors:
-        from: App\Processor\FromProcessor
+        myAwesomeProcessor: App\Processor\MyAwesomeProcessor
 ```
 
 Then you can use custom type.
 
 ```yaml
-    - {type: from, meta: {mail: johndoe@example.com, name: John Doe}}
+    - {type: myAwesomeProcessor, meta: {mail: johndoe@example.com, name: John Doe}}
 ```
 
-## Feeds
+## Global processors
 
-Create feeds.
+Global processors are applied to all feeds.
 
 ```yaml
 reportMailing:
-    feeds:
-
-        reportX:
-            mail:
-                subject: Here is your report.
-                to:
-                    - mail@example.com
-                template:
-                    file:
-                    params: []
-                cron: * * * * *
-                processors: 
-                    - {type: from, meta: {mail: johndoe@example.com}}
+    globalProcessors: 
+        - {type: from, meta: {mail: johndoe@example.com}}
 ```

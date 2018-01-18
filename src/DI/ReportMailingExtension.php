@@ -2,13 +2,20 @@
 
 namespace Tlapnet\ReportMailing\DI;
 
+use Contributte\Mailing\DI\MailingExtension;
+use Contributte\Scheduler\DI\SchedulerExtension;
 use Contributte\Scheduler\IScheduler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
+use Tlapnet\ReportMailing\Exceptions\Logic\InvalidStateException;
 use Tlapnet\ReportMailing\Feed;
 use Tlapnet\ReportMailing\MailConfig;
+use Tlapnet\ReportMailing\Processor\FromProcessor;
 use Tlapnet\ReportMailing\Processor\ProcessorConfig;
 use Tlapnet\ReportMailing\Processor\ProcessorResolver;
+use Tlapnet\ReportMailing\Processor\SubjectProcessor;
+use Tlapnet\ReportMailing\Processor\TemplateProcessor;
+use Tlapnet\ReportMailing\Processor\ToProcessor;
 use Tlapnet\ReportMailing\ReportSender;
 use Tlapnet\ReportMailing\ReportSenderJob;
 
@@ -18,7 +25,13 @@ class ReportMailingExtension extends CompilerExtension
 	/** @var mixed[] */
 	private $defaults = [
 		'feeds' => [],
-		'processors' => [],
+		'processors' => [
+			'to' => ToProcessor::class,
+			'from' => FromProcessor::class,
+			'subject' => SubjectProcessor::class,
+			'template' => TemplateProcessor::class,
+		],
+		'globalProcessors' => [],
 	];
 
 	/**
@@ -31,9 +44,23 @@ class ReportMailingExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
 
-		// Register services
-		$builder->addDefinition($this->prefix('reportMailer'))
+		// Required extensions
+		if (!$this->compiler->getExtensions(SchedulerExtension::class)) {
+			throw new InvalidStateException(
+				sprintf('You should register %s before %s.', SchedulerExtension::class, get_class($this))
+			);
+		}
+		if (!$this->compiler->getExtensions(MailingExtension::class)) {
+			throw new InvalidStateException(
+				sprintf('You should register %s before %s.', SchedulerExtension::class, get_class($this))
+			);
+		}
+
+		// Sender
+		$builder->addDefinition($this->prefix('reportSender'))
 			->setClass(ReportSender::class);
+
+		// Processors
 		$processors = [];
 		foreach ($config['processors'] as $key => $processor) {
 			$processors[$key] = $builder->addDefinition($this->prefix('processor.' . $key))
@@ -45,20 +72,25 @@ class ReportMailingExtension extends CompilerExtension
 		// Get scheduler
 		$scheduler = $builder->getDefinitionByType(IScheduler::class);
 
-		//todo exception
+		// Global Processors
+		$globalProcessorConfig = [];
+		foreach ($config['globalProcessors'] as $processorConfig) {
+			$globalProcessorConfig[] = new Statement(ProcessorConfig::class, [$processorConfig]);
+		}
 
 		foreach ($config['feeds'] as $key => $feedConfig) {
-			//Mail
+			// Mail
 			$mailConfig = new Statement(MailConfig::class, [$feedConfig['mail']]);
-			//Cron
+			// Cron
 			$cron = $feedConfig['cron'];
-			//Processors
+			// Processors
 			$processorsConfig = [];
 			foreach ($feedConfig['processors'] as $processorConfig) {
 				$processorsConfig[] = new Statement(ProcessorConfig::class, [$processorConfig]);
 			}
-			//Feed
-			$feed = new Statement(Feed::class, [$mailConfig, $cron, $processors]);
+			// Feed
+			$processorsConfig = array_merge($globalProcessorConfig, $processorsConfig);
+			$feed = new Statement(Feed::class, [$mailConfig, $cron, $processorsConfig]);
 			$senderJob = new Statement(ReportSenderJob::class, [$feed]);
 			// Add job
 			$scheduler->addSetup('add', [$senderJob, 'reportMailing.' . $key]);
