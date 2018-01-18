@@ -33,12 +33,12 @@
       "linter src tests",
       "codesniffer src tests"
     ],
-    "qa-install-phpstan": [
-      "mkdir -p temp/phpstan",
-      "composer require -d temp/phpstan phpstan/phpstan"
-    ],
     "phpstan": [
       "temp/phpstan/vendor/bin/phpstan analyse -l 7 src"
+    ],
+    "phpstan-install": [
+      "mkdir -p temp/phpstan",
+      "composer require -d temp/phpstan phpstan/phpstan"
     ],
     "phpunit": [
       "phpunit tests --colors=always"
