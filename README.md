@@ -10,7 +10,7 @@ Small lib for periodic email sending using cron expression.
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/tlapnet/report-mailing.svg?style=flat-square)](https://packagist.org/packages/tlapnet/report-mailing)
 [![Downloads total](https://img.shields.io/packagist/dt/tlapnet/report-mailing.svg?style=flat-square)](https://packagist.org/packages/tlapnet/report-mailing)
-[![Latest stable](https://img.shields.io/packagist/v/tlapnet/report-mailing.svg?style=flat-square)](https://packagist.org/packages/contributte/report-mailing)
+[![Latest stable](https://img.shields.io/packagist/v/tlapnet/report-mailing.svg?style=flat-square)](https://packagist.org/packages/tlapnet/report-mailing)
 
 ## Install
 
