@@ -29,8 +29,9 @@ composer require tlapnet/report-mailing
 ## Overview
 
 - [Configuration - how to configure](https://github.com/tlapnet/report-mailing/blob/master/.docs/README.md#installation)
-- [Processors - how to create processor](https://github.com/tlapnet/report-mailing/blob/master/.docs/README.md#processors)
 - [Feeds - hot to configure feed](https://github.com/tlapnet/report-mailing/blob/master/.docs/README.md#feeds)
+- [Processors - how to create processor](https://github.com/tlapnet/report-mailing/blob/master/.docs/README.md#processors)
+- [Global processors - how to configure all feeds in one place](https://github.com/tlapnet/report-mailing/blob/master/.docs/README.md#global-processors)
 
 ## Maintainers
 
