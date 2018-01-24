@@ -24,8 +24,9 @@ final class ReportSenderJobTest extends MockeryTest
 
 		$job = new ReportSenderJob($feed, $reportSender);
 
-		self::assertTrue($job->isDue(new \DateTime('1 minute')));
-		self::assertFalse($job->isDue(new \DateTime('2 minute')));
+		self::assertTrue($job->isDue(new \DateTime('2000-01-01 00:00')));
+		self::assertFalse($job->isDue(new \DateTime('2000-01-01 00:01')));
+		self::assertSame($feed, $job->getFeed());
 	}
 
 	/**

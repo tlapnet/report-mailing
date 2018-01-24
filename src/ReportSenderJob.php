@@ -43,4 +43,12 @@ class ReportSenderJob implements IJob
 		$this->reportSender->send($this->feed);
 	}
 
+	/**
+	 * @return Feed
+	 */
+	public function getFeed()
+	{
+		return $this->feed;
+	}
+
 }
