@@ -9,6 +9,7 @@ use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
 use Tlapnet\ReportMailing\Exceptions\Logic\InvalidStateException;
 use Tlapnet\ReportMailing\Feed;
+use Tlapnet\ReportMailing\JobContainer;
 use Tlapnet\ReportMailing\MailConfig;
 use Tlapnet\ReportMailing\Processor\FromProcessor;
 use Tlapnet\ReportMailing\Processor\ProcessorConfig;
@@ -69,6 +70,10 @@ class ReportMailingExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('processorResolver'))
 			->setClass(ProcessorResolver::class, [$processors]);
 
+		// Job Container
+		$jobContainer = $builder->addDefinition($this->prefix('jobContainer'))
+			->setClass(JobContainer::class);
+
 		// Get scheduler
 		$scheduler = $builder->getDefinitionByType(IScheduler::class);
 
@@ -93,7 +98,8 @@ class ReportMailingExtension extends CompilerExtension
 			$feed = new Statement(Feed::class, [$mailConfig, $cron, $processorsConfig]);
 			$senderJob = new Statement(ReportSenderJob::class, [$feed]);
 			// Add job
-			$scheduler->addSetup('add', [$senderJob, 'reportMailing.' . $key]);
+			$jobContainer->addSetup('add', [$senderJob, $this->prefix($key)]);
+			$scheduler->addSetup('add', [$senderJob, $this->prefix($key)]);
 		}
 	}
 
