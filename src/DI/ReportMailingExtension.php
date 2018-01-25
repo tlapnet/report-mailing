@@ -64,8 +64,7 @@ class ReportMailingExtension extends CompilerExtension
 		// Processors
 		$processors = [];
 		foreach ($config['processors'] as $key => $processor) {
-			$processors[$key] = $builder->addDefinition($this->prefix('processor.' . $key))
-				->setClass($processor);
+			$processors[$key] = new Statement($processor);
 		}
 		$builder->addDefinition($this->prefix('processorResolver'))
 			->setClass(ProcessorResolver::class, [$processors]);
@@ -83,15 +82,23 @@ class ReportMailingExtension extends CompilerExtension
 			$globalProcessorConfig[] = new Statement(ProcessorConfig::class, [$processorConfig]);
 		}
 
+		// Feeds
 		foreach ($config['feeds'] as $key => $feedConfig) {
-			// Mail
-			$mailConfig = new Statement(MailConfig::class, [$feedConfig['mail']]);
 			// Cron
+			if (!isset($feedConfig['cron'])) {
+				throw new InvalidStateException(
+					sprintf('Missing or empty "%sfeeds.%s.cron" section in config', $this->prefix(''), $key)
+				);
+			}
 			$cron = $feedConfig['cron'];
+			// Mail
+			$mailConfig = new Statement(MailConfig::class, [isset($feedConfig['mail']) ? $feedConfig['mail'] : []]);
 			// Processors
 			$processorsConfig = [];
-			foreach ($feedConfig['processors'] as $processorConfig) {
-				$processorsConfig[] = new Statement(ProcessorConfig::class, [$processorConfig]);
+			if (isset($feedConfig['processors'])) {
+				foreach ($feedConfig['processors'] as $processorConfig) {
+					$processorsConfig[] = new Statement(ProcessorConfig::class, [$processorConfig]);
+				}
 			}
 			// Feed
 			$processorsConfig = array_merge($globalProcessorConfig, $processorsConfig);

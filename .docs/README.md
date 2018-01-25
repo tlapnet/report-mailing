@@ -21,9 +21,9 @@ Set-up crontab for scheduler. Use `scheduler:run` command.
 
 ## Feeds
 
-Every set of emails is called feed. You need to set `cron` expression, and `mail.to` option.
+Every set of emails is called feed. You need to set `cron` expression.
  
-Optionally you can set `mail.subject`, `mail.template`. 
+Optionally you can set `mail.to` (string|array), `mail.subject`, `mail.template.file`, `mail.template.params`. 
 
 ```yaml
 reportMailing:

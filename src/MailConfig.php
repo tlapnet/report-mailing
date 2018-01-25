@@ -22,7 +22,12 @@ class MailConfig
 	 */
 	public function __construct(array $config)
 	{
-		$this->to = isset($config['to']) ? $config['to'] : [];
+		// string or array
+		$to = isset($config['to']) ? $config['to'] : [];
+		if (is_string($to)) {
+			$to = [$to];
+		}
+		$this->to = $to;
 		$this->subject = isset($config['subject']) ? $config['subject'] : '';
 		$this->templateFile = isset($config['template']['file']) ? $config['template']['file'] : '';
 		$this->templateParams = isset($config['template']['params']) ? $config['template']['params'] : [];
