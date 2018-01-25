@@ -37,11 +37,29 @@ class MailConfig
 	}
 
 	/**
+	 * @param string[] $to
+	 * @return void
+	 */
+	public function setTo($to)
+	{
+		$this->to = $to;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getSubject()
 	{
 		return $this->subject;
+	}
+
+	/**
+	 * @param string $subject
+	 * @return void
+	 */
+	public function setSubject($subject)
+	{
+		$this->subject = $subject;
 	}
 
 	/**
@@ -53,11 +71,29 @@ class MailConfig
 	}
 
 	/**
+	 * @param string $templateFile
+	 * @return void
+	 */
+	public function setTemplateFile($templateFile)
+	{
+		$this->templateFile = $templateFile;
+	}
+
+	/**
 	 * @return mixed[]
 	 */
 	public function getTemplateParams()
 	{
 		return $this->templateParams;
+	}
+
+	/**
+	 * @param mixed[] $templateParams
+	 * @return void
+	 */
+	public function setTemplateParams($templateParams)
+	{
+		$this->templateParams = $templateParams;
 	}
 
 }
