@@ -6,6 +6,8 @@ use Contributte\Mailing\IMailBuilderFactory;
 use Contributte\Mailing\MailBuilder;
 use Mockery;
 use Mockery\MockInterface;
+use Nette\Bridges\ApplicationLatte\Template;
+use Nette\Mail\Message;
 use Tlapnet\ReportMailing\Feed;
 use Tlapnet\ReportMailing\MailConfig;
 use Tlapnet\ReportMailing\Processor\IProcessor;
@@ -21,6 +23,21 @@ final class ReportSenderTest extends MockeryTest
 	 */
 	public function testSend()
 	{
+		$file = 'report.latte';
+
+		/** @var Template|MockInterface $template */
+		$template = Mockery::mock(Template::class)
+			->shouldReceive('getFile')
+			->andReturn($file)
+			->getMock();
+
+		/** @var Message|MockInterface $message */
+		$message = Mockery::mock(Message::class)
+			->shouldReceive('getHeader')
+			->withArgs(['To'])
+			->andReturn('...')
+			->getMock();
+
 		/** @var ProcessorResolver|MockInterface $processorResolver */
 		$processorResolver = Mockery::mock(ProcessorResolver::class);
 
@@ -34,7 +51,19 @@ final class ReportSenderTest extends MockeryTest
 			->once()
 			->getMock()
 			->shouldReceive('setTemplateFile')
-			->withArgs([''])
+			->withArgs([$file])
+			->once()
+			->getMock()
+			->shouldReceive('getTemplate')
+			->andReturn($template)
+			->once()
+			->getMock()
+			->shouldReceive('getMessage')
+			->andReturn($message)
+			->once()
+			->getMock()
+			->shouldReceive('addTo')
+			->withArgs(['mail@example.com'])
 			->once()
 			->getMock()
 			->shouldReceive('setParameters')
@@ -49,7 +78,7 @@ final class ReportSenderTest extends MockeryTest
 			->andReturn($message)
 			->getMock();
 
-		$mailConfig = new MailConfig([]);
+		$mailConfig = new MailConfig(['to' => 'mail@example.com', 'template' => ['file' => $file]]);
 		$feed = new Feed($mailConfig, '* * * * *', []);
 
 		$mailer = new ReportSender($processorResolver, $mailBuilderFactory);
@@ -66,6 +95,19 @@ final class ReportSenderTest extends MockeryTest
 		$to = 'mail@example.com';
 		$file = 'template.latte';
 		$params = ['a', 'b', 'c'];
+
+		/** @var Template|MockInterface $template */
+		$template = Mockery::mock(Template::class)
+			->shouldReceive('getFile')
+			->andReturn($file)
+			->getMock();
+
+		/** @var Message|MockInterface $message */
+		$message = Mockery::mock(Message::class)
+			->shouldReceive('getHeader')
+			->withArgs(['To'])
+			->andReturn('...')
+			->getMock();
 
 		/** @var ProcessorResolver|MockInterface $processorResolver */
 		$processorResolver = Mockery::mock(ProcessorResolver::class);
@@ -89,6 +131,14 @@ final class ReportSenderTest extends MockeryTest
 			->getMock()
 			->shouldReceive('setParameters')
 			->withArgs([$params])
+			->once()
+			->getMock()
+			->shouldReceive('getTemplate')
+			->andReturn($template)
+			->once()
+			->getMock()
+			->shouldReceive('getMessage')
+			->andReturn($message)
 			->once()
 			->getMock();
 
@@ -122,6 +172,21 @@ final class ReportSenderTest extends MockeryTest
 	 */
 	public function testSendProcessor()
 	{
+		$file = 'report.latte';
+
+		/** @var Template|MockInterface $template */
+		$template = Mockery::mock(Template::class)
+			->shouldReceive('getFile')
+			->andReturn($file)
+			->getMock();
+
+		/** @var Message|MockInterface $message */
+		$message = Mockery::mock(Message::class)
+			->shouldReceive('getHeader')
+			->withArgs(['To'])
+			->andReturn('...')
+			->getMock();
+
 		$type = 'report';
 		$meta = [
 			'keys' => ['report-a', 'report-b'],
@@ -142,6 +207,14 @@ final class ReportSenderTest extends MockeryTest
 			->getMock()
 			->shouldReceive('setParameters')
 			->withArgs([[]])
+			->once()
+			->getMock()
+			->shouldReceive('getTemplate')
+			->andReturn($template)
+			->once()
+			->getMock()
+			->shouldReceive('getMessage')
+			->andReturn($message)
 			->once()
 			->getMock();
 

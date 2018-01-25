@@ -3,6 +3,7 @@
 namespace Tlapnet\ReportMailing;
 
 use Contributte\Mailing\IMailBuilderFactory;
+use Tlapnet\ReportMailing\Exceptions\Logic\InvalidStateException;
 use Tlapnet\ReportMailing\Processor\ProcessorResolver;
 
 class ReportSender
@@ -46,6 +47,14 @@ class ReportSender
 		foreach ($feed->getProcessors() as $processorConfig) {
 			$processor = $this->processorResolver->get($processorConfig->getType());
 			$message = $processor->processMessage($message, $processorConfig->getMeta());
+		}
+
+		// Validation
+		if (!$message->getTemplate()->getFile()) {
+			throw new InvalidStateException('Missing template file');
+		}
+		if (!$message->getMessage()->getHeader('To')) {
+			throw new InvalidStateException('Missing to');
 		}
 
 		// Send message
