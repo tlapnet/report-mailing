@@ -29,11 +29,29 @@ class ProcessorConfig
 	}
 
 	/**
+	 * @param string $type
+	 * @return void
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
+	}
+
+	/**
 	 * @return mixed[]
 	 */
 	public function getMeta()
 	{
 		return $this->meta;
+	}
+
+	/**
+	 * @param mixed[] $meta
+	 * @return void
+	 */
+	public function setMeta($meta)
+	{
+		$this->meta = $meta;
 	}
 
 }
