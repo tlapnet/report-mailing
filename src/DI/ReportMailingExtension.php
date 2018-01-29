@@ -11,6 +11,7 @@ use Tlapnet\ReportMailing\Exceptions\Logic\InvalidStateException;
 use Tlapnet\ReportMailing\Feed;
 use Tlapnet\ReportMailing\JobContainer;
 use Tlapnet\ReportMailing\MailConfig;
+use Tlapnet\ReportMailing\MessageBuilder;
 use Tlapnet\ReportMailing\Processor\FromProcessor;
 use Tlapnet\ReportMailing\Processor\ProcessorConfig;
 use Tlapnet\ReportMailing\Processor\ProcessorResolver;
@@ -60,6 +61,10 @@ class ReportMailingExtension extends CompilerExtension
 		// Sender
 		$builder->addDefinition($this->prefix('reportSender'))
 			->setClass(ReportSender::class);
+
+		// MessageBuilder
+		$builder->addDefinition($this->prefix('messageBuilder'))
+			->setClass(MessageBuilder::class);
 
 		// Processors
 		$processors = [];

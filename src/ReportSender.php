@@ -2,30 +2,20 @@
 
 namespace Tlapnet\ReportMailing;
 
-use Contributte\Mailing\IMailBuilderFactory;
 use Tlapnet\ReportMailing\Exceptions\Logic\InvalidStateException;
-use Tlapnet\ReportMailing\Processor\ProcessorResolver;
 
 class ReportSender
 {
 
-	/** @var ProcessorResolver */
-	private $processorResolver;
-
-	/** @var IMailBuilderFactory */
-	private $mailBuilderFactory;
+	/** @var MessageBuilder */
+	private $messageBuilder;
 
 	/**
-	 * @param ProcessorResolver $processorResolver
-	 * @param IMailBuilderFactory $mailBuilderFactory
+	 * @param MessageBuilder $messageBuilder
 	 */
-	public function __construct(
-		ProcessorResolver $processorResolver,
-		IMailBuilderFactory $mailBuilderFactory
-	)
+	public function __construct(MessageBuilder $messageBuilder)
 	{
-		$this->processorResolver = $processorResolver;
-		$this->mailBuilderFactory = $mailBuilderFactory;
+		$this->messageBuilder = $messageBuilder;
 	}
 
 	/**
@@ -34,20 +24,7 @@ class ReportSender
 	 */
 	public function send(Feed $feed)
 	{
-		// Create message
-		$config = $feed->getMailConfig();
-		$message = $this->mailBuilderFactory->create();
-		foreach ($config->getTo() as $to) {
-			$message->addTo($to);
-		}
-		$message->setSubject($config->getSubject());
-		$message->setTemplateFile($config->getTemplateFile());
-		$message->setParameters($config->getTemplateParams());
-
-		foreach ($feed->getProcessors() as $processorConfig) {
-			$processor = $this->processorResolver->get($processorConfig->getType());
-			$message = $processor->processMessage($message, $processorConfig->getMeta());
-		}
+		$message = $this->messageBuilder->create($feed);
 
 		// Validation
 		if (!$message->getTemplate()->getFile()) {
