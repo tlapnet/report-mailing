@@ -110,7 +110,7 @@ class ReportMailingExtension extends CompilerExtension
 			$feed = new Statement(Feed::class, [$mailConfig, $cron, $processorsConfig]);
 			$senderJob = new Statement(ReportSenderJob::class, [$feed]);
 			// Add job
-			$jobContainer->addSetup('add', [$senderJob, $this->prefix($key)]);
+			$jobContainer->addSetup('add', [$senderJob, $key]);
 			$scheduler->addSetup('add', [$senderJob, $this->prefix($key)]);
 		}
 	}
