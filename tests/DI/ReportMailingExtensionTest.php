@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Tlapnet\ReportMailing\DI;
 
@@ -20,13 +20,10 @@ use Tlapnet\ReportMailing\ReportSender;
 final class ReportMailingExtensionTest extends TestCase
 {
 
-	/**
-	 * @return void
-	 */
-	public function testRegister()
+	public function testRegister(): void
 	{
-		$loader = new ContainerLoader(__DIR__ . '/temp', TRUE);
-		$class = $loader->load(function (Compiler $compiler) {
+		$loader = new ContainerLoader(__DIR__ . '/temp', true);
+		$class = $loader->load(function (Compiler $compiler): void {
 			// Contributte Mailing
 			$compiler->addExtension('latte', new LatteExtension(''));
 			$compiler->addExtension('http', new HttpExtension());
@@ -45,7 +42,7 @@ final class ReportMailingExtensionTest extends TestCase
 			$compiler->addExtension('reportMailing', new ReportMailingExtension());
 		});
 		/** @var Container $container */
-		$container = new $class;
+		$container = new $class();
 		self::assertInstanceOf(ReportSender::class, $container->getByType(ReportSender::class));
 		self::assertInstanceOf(ProcessorResolver::class, $container->getByType(ProcessorResolver::class));
 	}

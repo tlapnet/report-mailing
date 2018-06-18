@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing;
 
@@ -15,38 +15,24 @@ class ReportSenderJob implements IJob
 	/** @var ReportSender */
 	private $reportSender;
 
-	/**
-	 * @param Feed $feed
-	 * @param ReportSender $reportSender
-	 */
 	public function __construct(Feed $feed, ReportSender $reportSender)
 	{
 		$this->reportSender = $reportSender;
 		$this->feed = $feed;
 	}
 
-	/**
-	 * @param DateTime $dateTime
-	 * @return bool
-	 */
-	public function isDue(DateTime $dateTime)
+	public function isDue(DateTime $dateTime): bool
 	{
 		$expression = CronExpression::factory($this->feed->getExpression());
 		return $expression->isDue($dateTime);
 	}
 
-	/**
-	 * @return void
-	 */
-	public function run()
+	public function run(): void
 	{
 		$this->reportSender->send($this->feed);
 	}
 
-	/**
-	 * @return Feed
-	 */
-	public function getFeed()
+	public function getFeed(): Feed
 	{
 		return $this->feed;
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing\Processor;
 
@@ -8,13 +8,11 @@ class FromProcessor implements IProcessor
 {
 
 	/**
-	 * @param MailBuilder $message
 	 * @param mixed[] $meta
-	 * @return MailBuilder
 	 */
-	public function processMessage(MailBuilder $message, $meta)
+	public function processMessage(MailBuilder $message, array $meta): MailBuilder
 	{
-		$message->setFrom($meta['mail'], isset($meta['name']) ? $meta['name'] : '');
+		$message->setFrom($meta['mail'], $meta['name'] ?? '');
 		return $message;
 	}
 

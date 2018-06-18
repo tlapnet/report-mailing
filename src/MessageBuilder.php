@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing;
 
@@ -15,10 +15,6 @@ class MessageBuilder
 	/** @var IMailBuilderFactory */
 	private $mailBuilderFactory;
 
-	/**
-	 * @param ProcessorResolver $processorResolver
-	 * @param IMailBuilderFactory $mailBuilderFactory
-	 */
 	public function __construct(
 		ProcessorResolver $processorResolver,
 		IMailBuilderFactory $mailBuilderFactory
@@ -28,11 +24,7 @@ class MessageBuilder
 		$this->mailBuilderFactory = $mailBuilderFactory;
 	}
 
-	/**
-	 * @param Feed $feed
-	 * @return MailBuilder
-	 */
-	public function create(Feed $feed)
+	public function create(Feed $feed): MailBuilder
 	{
 		$config = $feed->getMailConfig();
 		$message = $this->mailBuilderFactory->create();

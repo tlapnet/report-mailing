@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Tlapnet\ReportMailing\Processor;
 
@@ -11,10 +11,7 @@ use Tlapnet\ReportMailing\Processor\ToProcessor;
 final class ToProcessorTest extends MockeryTest
 {
 
-	/**
-	 * @return void
-	 */
-	public function testProcess()
+	public function testProcess(): void
 	{
 		$email = 'mail@example.com';
 		$meta = ['to' => [$email]];

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing;
 
@@ -23,63 +23,48 @@ class MailConfig
 	public function __construct(array $config)
 	{
 		// string or array
-		$to = isset($config['to']) ? $config['to'] : [];
+		$to = $config['to'] ?? [];
 		if (is_string($to)) {
 			$to = [$to];
 		}
 		$this->to = $to;
-		$this->subject = isset($config['subject']) ? $config['subject'] : '';
-		$this->templateFile = isset($config['template']['file']) ? $config['template']['file'] : '';
-		$this->templateParams = isset($config['template']['params']) ? $config['template']['params'] : [];
+		$this->subject = $config['subject'] ?? '';
+		$this->templateFile = $config['template']['file'] ?? '';
+		$this->templateParams = $config['template']['params'] ?? [];
 	}
 
 	/**
 	 * @return string[]
 	 */
-	public function getTo()
+	public function getTo(): array
 	{
 		return $this->to;
 	}
 
 	/**
 	 * @param string[] $to
-	 * @return void
 	 */
-	public function setTo($to)
+	public function setTo(array $to): void
 	{
 		$this->to = $to;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSubject()
+	public function getSubject(): string
 	{
 		return $this->subject;
 	}
 
-	/**
-	 * @param string $subject
-	 * @return void
-	 */
-	public function setSubject($subject)
+	public function setSubject(string $subject): void
 	{
 		$this->subject = $subject;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getTemplateFile()
+	public function getTemplateFile(): string
 	{
 		return $this->templateFile;
 	}
 
-	/**
-	 * @param string $templateFile
-	 * @return void
-	 */
-	public function setTemplateFile($templateFile)
+	public function setTemplateFile(string $templateFile): void
 	{
 		$this->templateFile = $templateFile;
 	}
@@ -87,16 +72,15 @@ class MailConfig
 	/**
 	 * @return mixed[]
 	 */
-	public function getTemplateParams()
+	public function getTemplateParams(): array
 	{
 		return $this->templateParams;
 	}
 
 	/**
 	 * @param mixed[] $templateParams
-	 * @return void
 	 */
-	public function setTemplateParams($templateParams)
+	public function setTemplateParams(array $templateParams): void
 	{
 		$this->templateParams = $templateParams;
 	}

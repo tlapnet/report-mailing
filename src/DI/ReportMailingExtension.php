@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing\DI;
 
@@ -36,12 +36,7 @@ class ReportMailingExtension extends CompilerExtension
 		'globalProcessors' => [],
 	];
 
-	/**
-	 * Register services
-	 *
-	 * @return void
-	 */
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
@@ -97,7 +92,7 @@ class ReportMailingExtension extends CompilerExtension
 			}
 			$cron = $feedConfig['cron'];
 			// Mail
-			$mailConfig = new Statement(MailConfig::class, [isset($feedConfig['mail']) ? $feedConfig['mail'] : []]);
+			$mailConfig = new Statement(MailConfig::class, [$feedConfig['mail'] ?? []]);
 			// Processors
 			$processorsConfig = [];
 			if (isset($feedConfig['processors'])) {

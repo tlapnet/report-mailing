@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Tlapnet\ReportMailing;
 
@@ -15,10 +15,7 @@ use Tlapnet\ReportMailing\ReportSender;
 final class ReportSenderTest extends MockeryTest
 {
 
-	/**
-	 * @return void
-	 */
-	public function testSend()
+	public function testSend(): void
 	{
 		$file = 'report.latte';
 

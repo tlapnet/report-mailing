@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing\Processor;
 
@@ -20,19 +20,12 @@ class ProcessorConfig
 		$this->meta = $config['meta'];
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getType()
+	public function getType(): string
 	{
 		return $this->type;
 	}
 
-	/**
-	 * @param string $type
-	 * @return void
-	 */
-	public function setType($type)
+	public function setType(string $type): void
 	{
 		$this->type = $type;
 	}
@@ -40,16 +33,15 @@ class ProcessorConfig
 	/**
 	 * @return mixed[]
 	 */
-	public function getMeta()
+	public function getMeta(): array
 	{
 		return $this->meta;
 	}
 
 	/**
 	 * @param mixed[] $meta
-	 * @return void
 	 */
-	public function setMeta($meta)
+	public function setMeta(array $meta): void
 	{
 		$this->meta = $meta;
 	}

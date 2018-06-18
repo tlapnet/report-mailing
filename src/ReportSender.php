@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing;
 
@@ -10,19 +10,12 @@ class ReportSender
 	/** @var MessageBuilder */
 	private $messageBuilder;
 
-	/**
-	 * @param MessageBuilder $messageBuilder
-	 */
 	public function __construct(MessageBuilder $messageBuilder)
 	{
 		$this->messageBuilder = $messageBuilder;
 	}
 
-	/**
-	 * @param Feed $feed
-	 * @return void
-	 */
-	public function send(Feed $feed)
+	public function send(Feed $feed): void
 	{
 		$message = $this->messageBuilder->create($feed);
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing;
 
@@ -17,29 +17,21 @@ class Feed
 	private $processors = [];
 
 	/**
-	 * @param MailConfig $mailConfig
-	 * @param string $expression
 	 * @param ProcessorConfig[] $processors
 	 */
-	public function __construct(MailConfig $mailConfig, $expression, $processors)
+	public function __construct(MailConfig $mailConfig, string $expression, array $processors)
 	{
 		$this->expression = $expression;
 		$this->mailConfig = $mailConfig;
 		$this->processors = $processors;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getExpression()
+	public function getExpression(): string
 	{
 		return $this->expression;
 	}
 
-	/**
-	 * @return MailConfig
-	 */
-	public function getMailConfig()
+	public function getMailConfig(): MailConfig
 	{
 		return $this->mailConfig;
 	}
@@ -47,7 +39,7 @@ class Feed
 	/**
 	 * @return ProcessorConfig[]
 	 */
-	public function getProcessors()
+	public function getProcessors(): array
 	{
 		return $this->processors;
 	}

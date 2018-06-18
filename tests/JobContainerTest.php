@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Tlapnet\ReportMailing\Processor;
 
@@ -14,10 +14,7 @@ use Tlapnet\ReportMailing\ReportSenderJob;
 final class JobContainerTest extends MockeryTest
 {
 
-	/**
-	 * @return void
-	 */
-	public function testManage()
+	public function testManage(): void
 	{
 		$jobContainer = new JobContainer();
 

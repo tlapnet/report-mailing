@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Tlapnet\ReportMailing;
 
+use DateTime;
 use Mockery;
 use Mockery\MockInterface;
 use Tlapnet\ReportMailing\Feed;
@@ -12,10 +13,7 @@ use Tlapnet\ReportMailing\ReportSenderJob;
 final class ReportSenderJobTest extends MockeryTest
 {
 
-	/**
-	 * @return void
-	 */
-	public function testIsDue()
+	public function testIsDue(): void
 	{
 		$feed = new Feed(new MailConfig([]), '*/2 * * * *', []);
 
@@ -24,15 +22,12 @@ final class ReportSenderJobTest extends MockeryTest
 
 		$job = new ReportSenderJob($feed, $reportSender);
 
-		self::assertTrue($job->isDue(new \DateTime('2000-01-01 00:00')));
-		self::assertFalse($job->isDue(new \DateTime('2000-01-01 00:01')));
+		self::assertTrue($job->isDue(new DateTime('2000-01-01 00:00')));
+		self::assertFalse($job->isDue(new DateTime('2000-01-01 00:01')));
 		self::assertSame($feed, $job->getFeed());
 	}
 
-	/**
-	 * @return void
-	 */
-	public function testRun()
+	public function testRun(): void
 	{
 		$feed = new Feed(new MailConfig([]), '* * * * *', []);
 

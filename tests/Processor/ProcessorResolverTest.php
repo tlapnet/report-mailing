@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Tlapnet\ReportMailing\Processor;
 
@@ -12,10 +12,7 @@ use Tlapnet\ReportMailing\Processor\ProcessorResolver;
 final class ProcessorResolverTest extends MockeryTest
 {
 
-	/**
-	 * @return void
-	 */
-	public function testGet()
+	public function testGet(): void
 	{
 		$type = 'report';
 		/** @var IProcessor|MockInterface $processor */

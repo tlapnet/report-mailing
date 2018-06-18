@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing;
 
@@ -8,33 +8,24 @@ class JobContainer
 	/** @var ReportSenderJob[] */
 	private $jobs = [];
 
-	/**
-	 * @param ReportSenderJob $job
-	 * @param string|NULL $key
-	 * @return void
-	 */
-	public function add(ReportSenderJob $job, $key = NULL)
+	public function add(ReportSenderJob $job, ?string $key = null): void
 	{
-		if ($key !== NULL) {
+		if ($key !== null) {
 			$this->jobs[$key] = $job;
 			return;
 		}
 		$this->jobs[] = $job;
 	}
 
-	/**
-	 * @param string $key
-	 * @return ReportSenderJob|NULL
-	 */
-	public function get($key)
+	public function get(string $key): ?ReportSenderJob
 	{
-		return isset($this->jobs[$key]) ? $this->jobs[$key] : NULL;
+		return $this->jobs[$key] ?? null;
 	}
 
 	/**
 	 * @return ReportSenderJob[]
 	 */
-	public function getAll()
+	public function getAll(): array
 	{
 		return $this->jobs;
 	}
@@ -42,7 +33,7 @@ class JobContainer
 	/**
 	 * @return Feed[]
 	 */
-	public function getFeeds()
+	public function getFeeds(): array
 	{
 		$feeds = [];
 		$jobs = $this->getAll();

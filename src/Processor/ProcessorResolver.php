@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\ReportMailing\Processor;
 
@@ -18,11 +18,7 @@ class ProcessorResolver
 		$this->processors = $processors;
 	}
 
-	/**
-	 * @param string $type
-	 * @return IProcessor
-	 */
-	public function get($type)
+	public function get(string $type): IProcessor
 	{
 		if (isset($this->processors[$type])) {
 			return $this->processors[$type];

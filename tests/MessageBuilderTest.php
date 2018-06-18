@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Tlapnet\ReportMailing;
 
@@ -16,10 +16,7 @@ use Tlapnet\ReportMailing\Processor\ProcessorResolver;
 final class MessageBuilderTest extends MockeryTest
 {
 
-	/**
-	 * @return void
-	 */
-	public function testCreate()
+	public function testCreate(): void
 	{
 		$file = 'template.latte';
 
@@ -60,10 +57,11 @@ final class MessageBuilderTest extends MockeryTest
 	}
 
 	/**
+	 * Depends
+	 *
 	 * @depends testCreate
-	 * @return void
 	 */
-	public function testCreateConfig()
+	public function testCreateConfig(): void
 	{
 		$subject = 's';
 		$to = 'mail@example.com';
@@ -117,10 +115,11 @@ final class MessageBuilderTest extends MockeryTest
 	}
 
 	/**
+	 * Depends
+	 *
 	 * @depends testCreate
-	 * @return void
 	 */
-	public function testCreateProcessor()
+	public function testCreateProcessor(): void
 	{
 		$type = 'report';
 		$meta = [
