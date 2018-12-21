@@ -44,12 +44,12 @@ class ReportMailingExtension extends CompilerExtension
 		// Required extensions
 		if (!$this->compiler->getExtensions(SchedulerExtension::class)) {
 			throw new InvalidStateException(
-				sprintf('You should register %s before %s.', SchedulerExtension::class, get_class($this))
+				sprintf('You should register %s before %s.', SchedulerExtension::class, self::class)
 			);
 		}
 		if (!$this->compiler->getExtensions(MailingExtension::class)) {
 			throw new InvalidStateException(
-				sprintf('You should register %s before %s.', SchedulerExtension::class, get_class($this))
+				sprintf('You should register %s before %s.', SchedulerExtension::class, self::class)
 			);
 		}
 

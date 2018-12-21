@@ -15,6 +15,9 @@ use Tlapnet\ReportMailing\ReportSender;
 final class ReportSenderTest extends MockeryTest
 {
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testSend(): void
 	{
 		$file = 'report.latte';

@@ -22,7 +22,7 @@ final class ReportMailingExtensionTest extends TestCase
 
 	public function testRegister(): void
 	{
-		$loader = new ContainerLoader(__DIR__ . '/temp', true);
+		$loader = new ContainerLoader(__DIR__ . '/../temp', true);
 		$class = $loader->load(function (Compiler $compiler): void {
 			// Contributte Mailing
 			$compiler->addExtension('latte', new LatteExtension(''));

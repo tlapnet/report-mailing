@@ -16,6 +16,9 @@ use Tlapnet\ReportMailing\Processor\ProcessorResolver;
 final class MessageBuilderTest extends MockeryTest
 {
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testCreate(): void
 	{
 		$file = 'template.latte';
@@ -60,6 +63,7 @@ final class MessageBuilderTest extends MockeryTest
 	 * Depends
 	 *
 	 * @depends testCreate
+	 * @doesNotPerformAssertions
 	 */
 	public function testCreateConfig(): void
 	{
@@ -118,6 +122,7 @@ final class MessageBuilderTest extends MockeryTest
 	 * Depends
 	 *
 	 * @depends testCreate
+	 * @doesNotPerformAssertions
 	 */
 	public function testCreateProcessor(): void
 	{

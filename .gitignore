@@ -5,3 +5,4 @@
 /vendor
 /modules
 /composer.lock
+/tests/temp

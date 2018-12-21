@@ -27,6 +27,9 @@ final class ReportSenderJobTest extends MockeryTest
 		self::assertSame($feed, $job->getFeed());
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testRun(): void
 	{
 		$feed = new Feed(new MailConfig([]), '* * * * *', []);
